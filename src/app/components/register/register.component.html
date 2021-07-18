@@ -1,0 +1,80 @@
+<div class="container">
+  <div class="item">
+    <form [formGroup]="register" (ngSubmit)="onSubmit()" class="register-form">
+      <div class="form-control">
+        <h2>Register</h2>
+      </div>
+      <div class="form-control">
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          formControlName="email"
+        />
+        <span *ngIf="email && email.touched && email.invalid"
+          >Email is required</span
+        >
+      </div>
+      <div class="form-control">
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+        <span
+          *ngIf="
+            password &&
+            password.touched &&
+            (password.errors?.emptyPassword || password.errors?.invalidPassword)
+          "
+          >Password is required</span
+        >
+      </div>
+      <div class="form-control">
+        <input
+          type="password"
+          name="confrim-password"
+          id="confrim-password"
+          placeholder="Confrim password"
+          formControlName="confirmPassword"
+        />
+        <span
+          *ngIf="
+            confirmPassword &&
+            confirmPassword.touched &&
+            (confirmPassword.invalid ||
+              confirmPassword?.value !== password?.value)
+          "
+          >Password confirmation is required</span
+        >
+      </div>
+      <div class="form-control form-control-check">
+        <label for="terms"
+          ><input
+            type="checkbox"
+            name="terms"
+            id="terms"
+            formControlName="terms"
+          />
+          I agree to Terms and Conditions</label
+        >
+        <span *ngIf="terms && terms.touched && !terms?.value"
+          >You need to agree to our Terms and Conditions</span
+        >
+      </div>
+      <div class="form-control form-control-submit">
+        <input type="submit" value="Submit" class="btn btn-block" />
+      </div>
+    </form>
+  </div>
+  <div class="item">
+    <img
+      class="register-image"
+      src="../../../assets/register-image.jpg"
+      alt="Paris Bridge"
+    />
+  </div>
+</div>
