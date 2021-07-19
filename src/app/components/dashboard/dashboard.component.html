@@ -29,6 +29,11 @@
       <div class="form-control form-control-submit">
         <input type="submit" value="Submit" class="btn btn-block" />
       </div>
+      <div class="form-control form-control-error">
+        <p *ngIf="search.controls['place'].errors?.emptySubmit">
+          Please, select location.
+        </p>
+      </div>
     </form>
   </div>
   <div class="item">

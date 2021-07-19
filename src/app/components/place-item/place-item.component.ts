@@ -26,9 +26,13 @@ export class PlaceItemComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.objectId = this.placeItem?.objectID ? this.placeItem.objectID : null;
+    if (this.placeItem?.name) {
+      this.placeName = this.placeItem.name;
+    } else {
+      this.objectId = this.placeItem?.objectID ? this.placeItem.objectID : null;
 
-    let location = this.placeItem?.locale_names?.default;
-    if (Array.isArray(location)) this.placeName = location[0];
+      let location = this.placeItem?.locale_names?.default;
+      if (Array.isArray(location)) this.placeName = location[0];
+    }
   }
 }

@@ -19,6 +19,7 @@ export class DashboardComponent implements OnInit {
   });
 
   public currentPlace: string;
+  public currentPlaceName: string;
 
   constructor(private placesService: PlacesService, private router: Router) {}
 
@@ -34,23 +35,67 @@ export class DashboardComponent implements OnInit {
 
   selectPlace(place: Place) {
     if (place.objectID) {
+      this.search.controls['place'].setErrors(null);
       this.currentPlace = place.objectID;
+      console.log(this.currentPlace);
+      let name = place?.locale_names?.default;
+      if (name && Array.isArray(name)) {
+        this.currentPlaceName = name[0];
+      }
+      this.addToLocalStorage(this.currentPlace, this.currentPlaceName);
     }
   }
 
   searchPlaces(place: string) {
+    let cache = this.getFromLocalStorage();
+
     if (this.search.valid) {
-      this.placesService
-        .getPlaces(place)
-        .subscribe((places) => (this.places = places.hits));
+      this.placesService.getPlaces(place).subscribe((places) => {
+        if (cache && places.hits !== undefined) {
+          this.places = cache.concat(places.hits);
+        } else {
+          this.places = places.hits;
+        }
+      });
+      this.search.controls['place'].setErrors({ incorrect: true });
     }
   }
 
-  onSubmit() {
-    const redirect = () => {
-      this.router.navigate(['/place'], { state: { id: this.currentPlace } });
-    };
+  addToLocalStorage(name: string, newItem: string): void {
+    let history: string | null = localStorage.getItem('placeHistory');
+    if (history !== null) {
+      let cache: string[] = history.split(',');
+      if (cache.length >= 3) {
+        cache.shift();
+      }
+      cache.push(`${name}:${newItem}`);
+      localStorage.setItem('placeHistory', cache.join(','));
+    } else {
+      localStorage.setItem('placeHistory', `${name}:${newItem}`);
+    }
+  }
 
-    redirect();
+  getFromLocalStorage(): Place[] | null {
+    let history: string | null = localStorage.getItem('placeHistory');
+    if (history !== null) {
+      let arr = history.split(',').map((el) => ({
+        objectID: el.split(':')[0],
+        name: el.split(':')[1],
+      }));
+      return arr;
+    }
+    return null;
+  }
+
+  onSubmit() {
+    if (this.search.valid) {
+      const redirect = () => {
+        this.router.navigate(['/place'], { state: { id: this.currentPlace } });
+      };
+
+      redirect();
+    } else {
+      this.search.controls['place'].setErrors({ emptySubmit: true });
+    }
   }
 }
