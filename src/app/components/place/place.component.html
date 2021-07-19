@@ -1,35 +1,45 @@
 <div class="container">
-  <div class="loader">Loading...</div>
+  <div *ngIf="loading" class="loader">Loading...</div>
   <div class="item">
-    <form>
+    <form [formGroup]="placeGroup" (ngSubmit)="onSubmit()">
       <div class="form-control">
         <h2>Place Info</h2>
       </div>
       <div class="form-control">
-        <input type="hidden" value="{{ this.id }}" />
+        <input name="placeId" 
+        formControlName="placeId" type="hidden" value="{{ this.id }}" />
       </div>
       <div class="form-control form-control-submit">
-        <button
-          ng-click="onSubmit()"
+        <input
           type="submit"
+          id="submit"
+          value="Submit"
           value="Get Information"
           class="btn btn-block"
-        >
-          Get Information
-        </button>
+        />
       </div>
     </form>
   </div>
   <div class="item">
-    <div class="place-info">
+    <div class="place-info" >
       <div class="tip">
         <p *ngIf="!place">
-          Click on "Get Information" to view detailed info about selected palce
+          Click on "Get Information" to view detailed info about selected place.
           {{ place }}
         </p>
-        <p *ngIf="place">
-          {{ place }}
-        </p>
+        <div class="place-details" *ngIf="place">
+          
+          <p>You searched for <span *ngIf="prettyPlace.isCity">city </span> <span *ngIf="prettyPlace.name">{{prettyPlace.name}}</span>.
+          It's located in <span *ngIf="prettyPlace.city">{{prettyPlace.city}}, </span> 
+          <span *ngIf="prettyPlace.country">{{prettyPlace.country}}</span>. 
+          </p>
+          <p *ngIf="prettyPlace.population">Current population is {{prettyPlace.population}}.</p>
+          <p *ngIf="prettyPlace.location">Want to 
+            <a href="https://www.google.com/maps/search/?api=1&query={{prettyPlace.location.lat}},{{prettyPlace.location.lng}}" 
+            target="_blank" rel="noopener noreferrer">
+              travel here</a>?
+          </p>
+        </div>
       </div>
     </div>
   </div>
