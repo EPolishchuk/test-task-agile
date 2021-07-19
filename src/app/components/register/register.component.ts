@@ -78,9 +78,10 @@ export class RegisterComponent implements OnInit {
       const redirect = () => {
         this.router.navigate(['/']);
       };
-      this.mockRegisterService
-        .registerUser(user)
-        .subscribe((user) => setTimeout(redirect, 2000));
+      this.mockRegisterService.registerUser(user).subscribe((user) => {
+        localStorage.setItem('token', JSON.stringify(user));
+        setTimeout(redirect, 2000);
+      });
     } else {
       Object.keys(this.register.controls).forEach((field) => {
         const control = this.register.get(field);
