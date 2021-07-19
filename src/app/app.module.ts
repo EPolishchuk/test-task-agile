@@ -11,10 +11,17 @@ import { PlaceComponent } from './components/place/place.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PlaceItemComponent } from './components/place-item/place-item.component';
 
+import { AuthGuard } from './guards/auth.guard';
+import { LoggedInAuthGuard } from './guards/logged-in-auth.guard';
+
 const appRoutes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'place', component: PlaceComponent },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [LoggedInAuthGuard],
+  },
+  { path: 'place', component: PlaceComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
