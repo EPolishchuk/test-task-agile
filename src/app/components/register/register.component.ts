@@ -17,6 +17,7 @@ import { MockRegisterService } from '../../services/mock-register.service';
 })
 export class RegisterComponent implements OnInit {
   public isSubmitting: boolean;
+  public isFaded: boolean;
 
   register: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -80,12 +81,19 @@ export class RegisterComponent implements OnInit {
       };
 
       const redirect = () => {
-        this.isSubmitting = false;
+        this.isFaded = false;
         this.router.navigate(['/']);
       };
+
+      const fade = () => {
+        this.isSubmitting = false;
+        this.isFaded = true;
+        setTimeout(redirect, 2000);
+      };
+
       this.mockRegisterService.registerUser(user).subscribe((user) => {
         localStorage.setItem('token', JSON.stringify(user));
-        setTimeout(redirect, 2000);
+        setTimeout(fade, 2000);
       });
     } else {
       Object.keys(this.register.controls).forEach((field) => {
