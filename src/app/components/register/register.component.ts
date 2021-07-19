@@ -16,6 +16,8 @@ import { MockRegisterService } from '../../services/mock-register.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
+  public isSubmitting: boolean;
+
   register: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl(
@@ -69,6 +71,8 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     if (this.register.valid) {
+      this.isSubmitting = true;
+
       let user = {
         email: this.email?.value,
         password: this.password?.value,
@@ -76,6 +80,7 @@ export class RegisterComponent implements OnInit {
       };
 
       const redirect = () => {
+        this.isSubmitting = false;
         this.router.navigate(['/']);
       };
       this.mockRegisterService.registerUser(user).subscribe((user) => {
