@@ -13,6 +13,31 @@
 
 .container {
   padding: 0;
+  opacity: 1;
+  transition: all 0.5s ease;
+}
+
+.faded {
+  opacity: 0.3;
+}
+
+app-register {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  z-index: 999;
+}
+
+.popup h3 {
+  color: orangered;
+}
+
+.hide {
+  display: none;
 }
 
 .form-control {

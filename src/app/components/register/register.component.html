@@ -1,4 +1,7 @@
-<div class="container">
+<div class="popup {{ isFaded ? '' : 'hide' }}">
+  <h3>You've registred! Redirecting you to dashboard :3</h3>
+</div>
+<div class="container {{ isFaded ? 'faded' : '' }}">
   <div class="item">
     <form [formGroup]="register" (ngSubmit)="onSubmit()" class="register-form">
       <div class="form-control">
