@@ -28,7 +28,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.currentPlace);
     this.place?.valueChanges
       .pipe(debounceTime(500))
       .subscribe((text: string) => this.searchPlaces(text));
@@ -36,6 +35,7 @@ export class DashboardComponent implements OnInit {
 
   selectPlace(place: Place) {
     if (place.objectID) {
+      this.search.controls['place'].setErrors(null);
       this.currentPlace = place.objectID;
       console.log(this.currentPlace);
       let name = place?.locale_names?.default;
@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
           this.places = places.hits;
         }
       });
+      this.search.controls['place'].setErrors({ incorrect: true });
     }
   }
 
@@ -87,10 +88,14 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmit() {
-    const redirect = () => {
-      this.router.navigate(['/place'], { state: { id: this.currentPlace } });
-    };
+    if (this.search.valid) {
+      const redirect = () => {
+        this.router.navigate(['/place'], { state: { id: this.currentPlace } });
+      };
 
-    redirect();
+      redirect();
+    } else {
+      this.search.controls['place'].setErrors({ emptySubmit: true });
+    }
   }
 }

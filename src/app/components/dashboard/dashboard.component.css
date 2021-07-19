@@ -34,6 +34,12 @@
   width: 90%;
 }
 
+.form-control-error {
+  justify-content: flex-end;
+  width: 90%;
+  color: orangered;
+}
+
 .form-control-submit input {
   width: 50%;
 }
