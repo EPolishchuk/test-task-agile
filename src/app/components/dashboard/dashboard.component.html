@@ -1,1 +1,41 @@
-<p>dashboard works!</p>
+<div class="container">
+  <div class="item">
+    <form [formGroup]="search" (ngSubmit)="onSubmit()" class="dashboard">
+      <div class="form-control">
+        <h2>Dashboard</h2>
+      </div>
+      <div class="form-control">
+        <input
+          type="text"
+          name="place"
+          id="place"
+          formControlName="place"
+          placeholder="Search location"
+        />
+      </div>
+      <div class="form-control">
+        <ul *ngIf="places">
+          <app-place-item
+            *ngFor="let placeItem of places; let odd = odd; let last = last"
+            [placeItem]="placeItem"
+            [odd]="odd"
+            [last]="last"
+            (click)="selectPlace(placeItem)"
+            [highlighted]="placeItem.objectID === currentPlace"
+          >
+          </app-place-item>
+        </ul>
+      </div>
+      <div class="form-control form-control-submit">
+        <input type="submit" value="Submit" class="btn btn-block" />
+      </div>
+    </form>
+  </div>
+  <div class="item">
+    <img
+      class="register-image"
+      src="../../../assets/register-image.jpg"
+      alt="Paris Bridge"
+    />
+  </div>
+</div>

@@ -1,0 +1,16 @@
+li {
+  padding: 10px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.odd {
+  background-color: #efefef;
+}
+
+.last {
+  border-bottom: none;
+}
+
+.highlighted {
+  background-color: cornflowerblue;
+}
