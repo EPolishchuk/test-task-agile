@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Places, Place } from '../Place';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,6 +19,7 @@ export class PlacesService {
   constructor(private http: HttpClient) {}
 
   getPlaces(place: string): Observable<Places> {
+    this.checkAuth();
     return this.http.post<Places>(
       `${this.apiUrl}/query`,
       { query: place },
@@ -26,6 +28,16 @@ export class PlacesService {
   }
 
   getPlace(place: string): Observable<Place> {
-    return this.http.get<Place>(`${this.apiUrl}/${place}`);
+    this.checkAuth();
+    return this.http.get<Place>(`${this.apiUrl}/${place}`, httpOptions);
+  }
+
+  checkAuth(): void {
+    if (environment.auth) {
+      httpOptions.headers = httpOptions.headers.append(
+        'Authorization',
+        `Basic ${btoa(environment.username + ':' + environment.password)})`
+      );
+    }
   }
 }
