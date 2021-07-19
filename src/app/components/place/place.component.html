@@ -1,1 +1,36 @@
-<p>place works!</p>
+<div class="container">
+  <div class="loader">Loading...</div>
+  <div class="item">
+    <form>
+      <div class="form-control">
+        <h2>Place Info</h2>
+      </div>
+      <div class="form-control">
+        <input type="hidden" value="{{ this.id }}" />
+      </div>
+      <div class="form-control form-control-submit">
+        <button
+          ng-click="onSubmit()"
+          type="submit"
+          value="Get Information"
+          class="btn btn-block"
+        >
+          Get Information
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="item">
+    <div class="place-info">
+      <div class="tip">
+        <p *ngIf="!place">
+          Click on "Get Information" to view detailed info about selected palce
+          {{ place }}
+        </p>
+        <p *ngIf="place">
+          {{ place }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
